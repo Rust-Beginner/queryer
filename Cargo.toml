@@ -3,5 +3,6 @@
 members = [
   "queryer",
   "queryer-py",
+  "queryer-node",
   "queryer-fed/src-tauri"
 ]
