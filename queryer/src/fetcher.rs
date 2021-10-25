@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use tokio::fs;
 
 use anyhow::{anyhow, Result};
@@ -28,7 +30,10 @@ impl<'a> Fetch for UrlFetcher<'a> {
     type Error = anyhow::Error;
 
     async fn fetch(&self) -> Result<String, Self::Error> {
-        Ok(reqwest::get(self.0).await?.text().await?)
+        let client = reqwest::Client::builder()
+            .timeout(Duration::from_secs(10))
+            .build()?;
+        Ok(client.get(self.0).send().await?.text().await?)
     }
 }
 
